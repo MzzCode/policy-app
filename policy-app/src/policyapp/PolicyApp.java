@@ -4,83 +4,92 @@ import java.util.*;
 
 class PolicyHolder {
 
- private String id;
- private String name;
- private double amount;
- private int years;
+    private String policyId;
+    private String name;
+    private double investmentAmount;
+    private int yearsInForce;
 
- public PolicyHolder(String id, String name, double amount, int years) {
-     this.id = id;
-     this.name = name;
-     this.amount = amount;
-     this.years = years;
- }
+    public PolicyHolder(String policyId, String name, double investmentAmount, int yearsInForce) {
+        this.policyId = policyId;
+        this.name = name;
+        this.investmentAmount = investmentAmount;
+        this.yearsInForce = yearsInForce;
+    }
 
- public String getId() { 
-	 return id; 
-	 }
- public String getName() { 
-	 return name;
-	 }
- public double getAmount() { 
-	 return amount;
-	 }
- public int getYears() { 
-	 return years; 
-	 }
+	public String getPolicyId() {
+		return policyId;
+	}
 
- public void setId(String id) { 
-	 this.id = id;
-	 }
- public void setName(String name) { 
-	 this.name = name; 
-	 }
- public void setAmount(double amount) { 
-	 this.amount = amount; 
-	 }
- public void setYears(int years) { 
-	 this.years = years;
-	 }
+	public void setPolicyId(String policyId) {
+		this.policyId = policyId;
+	}
 
- public String toString() {
-     return "ID: " + id + ", Name: " + name +
-            ", Amount: " + amount + ", Years: " + years;
- }
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public double getInvestmentAmount() {
+		return investmentAmount;
+	}
+
+	public void setInvestmentAmount(double investmentAmount) {
+		this.investmentAmount = investmentAmount;
+	}
+
+	public int getYearsInForce() {
+		return yearsInForce;
+	}
+
+	public void setYearsInForce(int yearsInForce) {
+		this.yearsInForce = yearsInForce;
+	}
+    
 }
 
+//Main
 
-// main class
 public class PolicyApp {
 
- public static void main(String[] args) {
+    // future value calculation
+    public static double calculateMaturityValue(double investmentAmount, int yearsInForce ) {
+        return investmentAmount * Math.pow(1.08, yearsInForce);
+    }
 
-     List<PolicyHolder> list = new ArrayList<>();
+    // find high value policies 
+    public static void findHighValuePolicies(List<PolicyHolder> list) {
+        System.out.println("High Value Policies (> 1,00,000):\n");
+        
 
-     list.add(new PolicyHolder("P01", "Rahul", 50000, 3));
-     list.add(new PolicyHolder("P02", "Amit", 150000, 5));
-     list.add(new PolicyHolder("P03", "Sneha", 250000, 2));
+        for (PolicyHolder p : list) {
+            if (p.getInvestmentAmount() > 100000) {
 
-     System.out.println("----- POLICY HOLDER MANAGEMENT APP -----\n");
+                double mv = calculateMaturityValue(p.getInvestmentAmount(), p.getYearsInForce());
 
-    
-     findHighValuePolicies(list);
- }
+                System.out.println("Policy ID: " + p.getPolicyId());
+                System.out.println("Name: " + p.getName());
+                System.out.println("Investment Amount: " + p.getInvestmentAmount());
+                System.out.println("Years in Force: " + p.getYearsInForce());
+                System.out.println("Maturity Value: " + mv);
+                System.out.println();
+               
+            }
+        }
+    }
 
- // future value calculation)
- public static double calculateMaturityValue(double amount, int years) {
-     return amount * Math.pow(1.08, years);
- }
+    public static void main(String[] args) {
 
- // find high value policies
- public static void findHighValuePolicies(List<PolicyHolder> list) {
-     System.out.println("High Value Policies (> 1,00,000):\n");
+        List<PolicyHolder> list = new ArrayList<>();
 
-     for (PolicyHolder p : list) {
-         if (p.getAmount() > 100000) {
-             System.out.println(p);
-         }
-     }
- }
+        list.add(new PolicyHolder("P01", "Mohit", 50000, 3));
+        list.add(new PolicyHolder("P02", "Mega", 150000, 5));
+        list.add(new PolicyHolder("P03", "jhon", 250000, 2));
+
+        System.out.println("------ POLICY HOLDER MANAGEMENT APP -----\n");
+
+        findHighValuePolicies(list);
+    }
 }
-
-
